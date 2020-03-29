@@ -10,6 +10,7 @@ export default class Search extends React.Component {
     }
     this.searchMovie = this.searchMovie.bind(this);
     this.keyPress = this.keyPress.bind(this);
+    this.addToFavorite = this.addToFavorite.bind(this);
     this.movieFinder = new movieFinder();
   }
   keyPress(event) {
@@ -32,6 +33,9 @@ export default class Search extends React.Component {
         })
     }
   }
+  addToFavorite(movie) {
+    console.log("Movie to favo", movie)
+  }
   listMovies(movies) {
     const listMovies = movies.map(movie => {
       const movieKey = `${movie.id}-${movie.release_date}`;
@@ -39,6 +43,7 @@ export default class Search extends React.Component {
         <li className="search-movie" key={movieKey}>
           <p className="search-movie__title">{movie.title}</p>
           <p className="search-movie__release">{movie.release_date}</p>
+          <button onClick={() => this.addToFavorite(movie)}>Add to favorite</button>
         </li>
       );
     })
@@ -62,7 +67,7 @@ export default class Search extends React.Component {
         />
         <button onClick={this.searchMovie}>Rechercher</button>
 
-        { this.state.movies.length && this.listMovies(this.state.movies) }
+        { this.state.movies.length > 0 && this.listMovies(this.state.movies) }
       </section>
     )
   }
