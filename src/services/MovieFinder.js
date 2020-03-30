@@ -8,12 +8,17 @@ import settings from "../settings";
 
 export default class movieFinder {
   constructor() {
-    this.baseUrl = "https://api.themoviedb.org/3";
+    this.apiBaseUrl = "https://api.themoviedb.org/3";
+    this.imageBaseUrl = "https://image.tmdb.org/t/p"
   } 
+
+  getImageMovie(moviePath, size = 500) {
+    return moviePath ? `${this.imageBaseUrl}/w${size}${moviePath}` : "https://via.placeholder.com/200x300";
+  }
 
   searchMovie(movie) {
     return new Promise((resolve, reject) => {
-      const url = `${this.baseUrl}/search/movie?api_key=${settings.apiKey}&language=fr-FR&query=${movie}`;
+      const url = `${this.apiBaseUrl}/search/movie?api_key=${settings.apiKey}&language=fr-FR&query=${movie}`;
       fetch(url)
         .then(response => {
           return response.json()

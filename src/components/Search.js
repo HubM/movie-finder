@@ -1,6 +1,5 @@
 import React from "react";
 import movieFinder from "../services/MovieFinder";
-
 export default class Search extends React.Component {
   constructor(props) {
     super(props);
@@ -34,16 +33,19 @@ export default class Search extends React.Component {
     }
   }
   addToFavorite(movie) {
+    //Use indexedDb Here
     console.log("Movie to favo", movie)
   }
   listMovies(movies) {
     const listMovies = movies.map(movie => {
       const movieKey = `${movie.id}-${movie.release_date}`;
+      const movieImage = this.movieFinder.getImageMovie(movie.poster_path, 200)
       return (
         <li className="search-movie" key={movieKey}>
+          <img src={movieImage} alt={`Affiche de ${movie.title}`} />
           <p className="search-movie__title">{movie.title}</p>
           <p className="search-movie__release">{movie.release_date}</p>
-          <button onClick={() => this.addToFavorite(movie)}>Add to favorite</button>
+          <button onClick={() => this.addToFavorite(movie)}>Ajouter</button>
         </li>
       );
     })
