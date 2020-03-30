@@ -1,11 +1,13 @@
 import React from "react";
 import movieFinder from "../services/MovieFinder";
+
 export default class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       search: "",
-      movies: []
+      movies: [],
+      indexedDbSupported: ('indexedDB' in window)
     }
     this.searchMovie = this.searchMovie.bind(this);
     this.keyPress = this.keyPress.bind(this);
@@ -13,11 +15,7 @@ export default class Search extends React.Component {
     this.movieFinder = new movieFinder();
   }
   keyPress(event) {
-    //enter
-    if (event.keyCode === 13) {
-      return this.searchMovie();
-    }
-    return;
+    return event.keyCode === 13 ? this.searchMovie() : false;
   }
   searchMovie() {
     if (this.state.search && this.state.search.length > 2) {
@@ -33,8 +31,7 @@ export default class Search extends React.Component {
     }
   }
   addToFavorite(movie) {
-    //Use indexedDb Here
-    console.log("Movie to favo", movie)
+    // this.
   }
   listMovies(movies) {
     const listMovies = movies.map(movie => {
@@ -45,7 +42,7 @@ export default class Search extends React.Component {
           <img src={movieImage} alt={`Affiche de ${movie.title}`} />
           <p className="search-movie__title">{movie.title}</p>
           <p className="search-movie__release">{movie.release_date}</p>
-          <button onClick={() => this.addToFavorite(movie)}>Ajouter</button>
+          { this.state.indexedDbSupported && <button onClick={() => this.addToFavorite(movie)}>Ajouter</button> }
         </li>
       );
     })
@@ -54,8 +51,9 @@ export default class Search extends React.Component {
       <ul>
         {listMovies}
       </ul>
-    )
+    );
   }
+
   render() {
     return (
       <section className="search-page">
@@ -69,6 +67,7 @@ export default class Search extends React.Component {
         />
         <button onClick={this.searchMovie}>Rechercher</button>
 
+        { !this.state.indexedDbSupported && <p>Vous devriez utiliser un navigateur moderne pour pouvoir enregistrer vos films préférés</p> }
         { this.state.movies.length > 0 && this.listMovies(this.state.movies) }
       </section>
     )

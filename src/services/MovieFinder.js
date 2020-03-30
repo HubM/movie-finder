@@ -1,11 +1,4 @@
 import settings from "../settings";
-
-/*
-`https://api.themoviedb.org/3/search/movie?api_key=${
-        settings.movieAPI
-      }&language=fr-FR&query=${value}`;
-      */
-
 export default class movieFinder {
   constructor() {
     this.apiBaseUrl = "https://api.themoviedb.org/3";
