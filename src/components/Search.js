@@ -1,4 +1,5 @@
 import React from "react";
+import { openDB } from 'idb';
 import movieFinder from "../services/MovieFinder";
 
 export default class Search extends React.Component {
@@ -30,8 +31,37 @@ export default class Search extends React.Component {
         })
     }
   }
-  addToFavorite(movie) {
-    // this.
+  async addToFavorite(movie) {
+    const { id, title, overview, poster_path, release_date } = movie;
+    const db = await openDB('movies', 1, {
+      upgrade(db) {
+        // Create a store of objects
+        const store = db.createObjectStore('favorites', {
+          // The 'id' property of the object will be the key.
+          keyPath: 'id',
+          // If it isn't explicitly set, create a value by auto incrementing.
+          autoIncrement: true,
+        });
+        // Create an index on the 'date' property of the objects.
+        store.createIndex('title', 'title');
+        store.createIndex('movieId', 'movieId');
+      },
+    });
+    
+    const dbMovies = await db.getAllFromIndex('favorites', 'title');
+    const existingMovie = dbMovies.find(movie => movie.movieId === id);
+
+    if (!existingMovie) {
+      await db.add('favorites', {
+        movieId: id,
+        title,
+        overview,
+        poster_path,
+        release_date
+      });
+    } else {
+      console.log("Movie always in DB")
+    }
   }
   listMovies(movies) {
     const listMovies = movies.map(movie => {
