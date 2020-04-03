@@ -9,6 +9,7 @@ import {
 import Search from "./components/Search";
 import Favorites from "./components/Favorites";
 import Profile from "./components/Profile";
+import Movie from "./components/Movie";
 
 export default function App() {
   return (
@@ -36,6 +37,7 @@ export default function App() {
           <Route path="/me">
             <Profile />
           </Route>
+          <Route path="/movie/:id" children={<Movie />} />
         </Switch>
       </div>
     </Router>

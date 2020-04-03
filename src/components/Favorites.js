@@ -1,8 +1,10 @@
 import React from "react";
 import { openDB,} from 'idb';
+import { withRouter } from "react-router-dom";
+
 import movieFinder from "../services/MovieFinder";
 
-export default class Favorites extends React.Component {
+class Favorites extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,6 +31,9 @@ export default class Favorites extends React.Component {
     await db.delete("favorites", movieKey);
     this.getFavoritesMovies()
   }
+  seeMovieDetails = id => {
+    this.props.history.push(`/movie/${id}`);
+  }
   render() {
     const renderFavoritesMoviesSection = () => {
       if (!this.state.indexedDbSupported) {
@@ -41,12 +46,14 @@ export default class Favorites extends React.Component {
         const favoritesMovies = this.state.movies.map(movie => {
           const movieKey = `${movie.movieId}-${movie.release_date}`;
           const movieImage = this.movieFinder.getImageMovie(movie.poster_path, 500);
+          console.log(movie)
           return (
             <li className="favorite-movie" key={movieKey}>
               <img src={movieImage} alt={`Affiche de ${movie.title}`} />
               <p className="favorite-movie__release">{movie.release_date}</p>
               <p className="favorite-movie__synopsis">{movie.overview}</p>
               <button onClick={() => this.deleteMovieFromFavorites(movie.movieId)}>Supprimer des favoris</button>
+              <button onClick={() => this.seeMovieDetails(movie.movieId)}>Détails</button> 
             </li>
           )
         })
@@ -70,3 +77,5 @@ export default class Favorites extends React.Component {
     );
   }
 }
+
+export default withRouter(Favorites)
