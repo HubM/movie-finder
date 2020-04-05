@@ -9,6 +9,10 @@ export default class movieFinder {
     return moviePath ? `${this.imageBaseUrl}/w${size}${moviePath}` : "https://via.placeholder.com/200x300";
   }
 
+  getActorProfile(profilePath, size = 200) {
+    return profilePath ? `${this.imageBaseUrl}/w${size}${profilePath}` : "https://via.placeholder.com/200x300";
+  }  
+
   searchMovie(movie) {
     return new Promise((resolve, reject) => {
       const url = `${this.apiBaseUrl}/search/movie?api_key=${settings.apiKey}&language=fr-FR&query=${movie}`;
@@ -36,6 +40,21 @@ export default class movieFinder {
             resolve(data)
           }
         })
+    })
+  }
+
+  getMovieCredits(movieId) {
+    return new Promise((resolve, reject) => {
+      const url = `${this.apiBaseUrl}/movie/${movieId}/credits?api_key=${settings.apiKey}&language=fr-FR`;
+      fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        if (data.status_code === 7) {
+          reject(data.status_message);
+        } else {
+          resolve(data)
+        }
+      })
     })
   }
 }

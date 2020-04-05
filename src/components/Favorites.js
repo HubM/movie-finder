@@ -13,19 +13,18 @@ class Favorites extends React.Component {
       db: undefined
     }
     this.movieFinder = new movieFinder();
-    this.deleteMovieFromFavorites = this.deleteMovieFromFavorites.bind(this);
   }
   componentDidMount() {
     this.getFavoritesMovies()
   }
-  async getFavoritesMovies() {
+  getFavoritesMovies = async () => {
     const db = await openDB('movies', 1);
     this.setState({
       db,
       movies: await db.getAllFromIndex('favorites', 'title')
     }) 
   }
-  async deleteMovieFromFavorites(movieId) {
+  deleteMovieFromFavorites = async (movieId) => {
     const { db } = this.state;
     const movieKey = await db.getKeyFromIndex("favorites", "movieId", movieId);
     await db.delete("favorites", movieKey);
@@ -46,7 +45,6 @@ class Favorites extends React.Component {
         const favoritesMovies = this.state.movies.map(movie => {
           const movieKey = `${movie.movieId}-${movie.release_date}`;
           const movieImage = this.movieFinder.getImageMovie(movie.poster_path, 500);
-          console.log(movie)
           return (
             <li className="favorite-movie" key={movieKey}>
               <img src={movieImage} alt={`Affiche de ${movie.title}`} />
