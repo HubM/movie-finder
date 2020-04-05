@@ -2,6 +2,8 @@ import React from "react";
 import { openDB } from 'idb';
 import { withRouter } from "react-router-dom";
 
+import { addToFavorite } from "../helpers/_functions/index"
+
 import movieFinder from "../services/MovieFinder";
 
 class Movie extends React.Component {
@@ -51,35 +53,35 @@ class Movie extends React.Component {
       })
   }
 
-  addToFavorite = async (movie) => {
-    const { id, title, overview, poster_path, release_date } = movie;
-    const db = await openDB('movies', 1, {
-      upgrade(db) {
-        const store = db.createObjectStore('favorites', {
-          keyPath: 'id',
-          autoIncrement: true,
-        });
-        // Create an index on the 'date' property of the objects.
-        store.createIndex('title', 'title');
-        store.createIndex('movieId', 'movieId');
-      },
-    });
+  // addToFavorite = async (movie) => {
+  //   const { id, title, overview, poster_path, release_date } = movie;
+  //   const db = await openDB('movies', 1, {
+  //     upgrade(db) {
+  //       const store = db.createObjectStore('favorites', {
+  //         keyPath: 'id',
+  //         autoIncrement: true,
+  //       });
+  //       // Create an index on the 'date' property of the objects.
+  //       store.createIndex('title', 'title');
+  //       store.createIndex('movieId', 'movieId');
+  //     },
+  //   });
 
-    const dbMovies = await db.getAllFromIndex('favorites', 'title');
-    const existingMovie = dbMovies.find(movie => movie.movieId === id);
+  //   const dbMovies = await db.getAllFromIndex('favorites', 'title');
+  //   const existingMovie = dbMovies.find(movie => movie.movieId === id);
 
-    if (!existingMovie) {
-      await db.add('favorites', {
-        movieId: id,
-        title,
-        overview,
-        poster_path,
-        release_date
-      });
-    } else {
-      console.log("Movie always in DB")
-    }
-  }
+  //   if (!existingMovie) {
+  //     await db.add('favorites', {
+  //       movieId: id,
+  //       title,
+  //       overview,
+  //       poster_path,
+  //       release_date
+  //     });
+  //   } else {
+  //     console.log("Movie always in DB")
+  //   }
+  // }
 
   deleteMovieFromFavorites = async (movieId) => {
     const { db } = this.state;
@@ -137,7 +139,7 @@ class Movie extends React.Component {
         ?
           <button onClick={() => { this.deleteMovieFromFavorites(this.state.movie.details.id)} }>Supprimer des favoris</button>
         :
-          <button onClick={() => { this.addToFavorite(this.state.movie.details) }} >Ajouter aux favoris</button>
+          <button onClick={() => { addToFavorite(this.state.movie.details) }} >Ajouter aux favoris</button>
 
     return (
       <div>
@@ -145,10 +147,6 @@ class Movie extends React.Component {
         <h1>{details.title}</h1>
 
         {actionBtn}
-        {/* <p>
-
-          { this.state.indexedDbSupported && this.renderMovieBtnAction(movie)}
-        </p> */}
 
         <p className="movie-details__release">{details.release_date}</p>
         <p>{details.vote_average}/10</p>

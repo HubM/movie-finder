@@ -1,6 +1,7 @@
 import React from "react";
-import { openDB } from 'idb';
 import { withRouter } from "react-router-dom";
+
+import { addToFavorite } from "../helpers/_functions/index"
 
 import movieFinder from "../services/MovieFinder";
 
@@ -32,36 +33,6 @@ class Search extends React.Component {
     }
   }
   
-  addToFavorite = async (movie) => {
-    const { id, title, overview, poster_path, release_date } = movie;
-    const db = await openDB('movies', 1, {
-      upgrade(db) {
-        const store = db.createObjectStore('favorites', {
-          keyPath: 'id',
-          autoIncrement: true,
-        });
-        // Create an index on the 'date' property of the objects.
-        store.createIndex('title', 'title');
-        store.createIndex('movieId', 'movieId');
-      },
-    });
-    
-    const dbMovies = await db.getAllFromIndex('favorites', 'title');
-    const existingMovie = dbMovies.find(movie => movie.movieId === id);
-
-    if (!existingMovie) {
-      await db.add('favorites', {
-        movieId: id,
-        title,
-        overview,
-        poster_path,
-        release_date
-      });
-    } else {
-      console.log("Movie always in DB")
-    }
-  }
-
   listMovies = (movies) => {
     const listMovies = movies.map(movie => {
       const movieKey = `${movie.id}-${movie.release_date}`;
@@ -71,7 +42,7 @@ class Search extends React.Component {
           <img src={movieImage} alt={`Affiche de ${movie.title}`} />
           <p className="search-movie__title">{movie.title}</p>
           <p className="search-movie__release">{movie.release_date}</p>
-          { this.state.indexedDbSupported && <button onClick={() => this.addToFavorite(movie)}>Ajouter</button> }
+          { this.state.indexedDbSupported && <button onClick={() => addToFavorite(movie)}>Ajouter</button> }
           <button onClick={() => this.seeMovieDetails(movie.id)}>Détails</button> 
         </li>
       );
