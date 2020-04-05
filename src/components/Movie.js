@@ -2,7 +2,7 @@ import React from "react";
 import { openDB } from 'idb';
 import { withRouter } from "react-router-dom";
 
-import { addToFavorite } from "../helpers/_functions/index"
+import { addToFavorite, deleteMovieFromFavorites } from "../helpers/_functions/index"
 
 import movieFinder from "../services/MovieFinder";
 
@@ -53,42 +53,6 @@ class Movie extends React.Component {
       })
   }
 
-  // addToFavorite = async (movie) => {
-  //   const { id, title, overview, poster_path, release_date } = movie;
-  //   const db = await openDB('movies', 1, {
-  //     upgrade(db) {
-  //       const store = db.createObjectStore('favorites', {
-  //         keyPath: 'id',
-  //         autoIncrement: true,
-  //       });
-  //       // Create an index on the 'date' property of the objects.
-  //       store.createIndex('title', 'title');
-  //       store.createIndex('movieId', 'movieId');
-  //     },
-  //   });
-
-  //   const dbMovies = await db.getAllFromIndex('favorites', 'title');
-  //   const existingMovie = dbMovies.find(movie => movie.movieId === id);
-
-  //   if (!existingMovie) {
-  //     await db.add('favorites', {
-  //       movieId: id,
-  //       title,
-  //       overview,
-  //       poster_path,
-  //       release_date
-  //     });
-  //   } else {
-  //     console.log("Movie always in DB")
-  //   }
-  // }
-
-  deleteMovieFromFavorites = async (movieId) => {
-    const { db } = this.state;
-    const movieKey = await db.getKeyFromIndex("favorites", "movieId", movieId);
-    await db.delete("favorites", movieKey);
-  }
-
   renderMovieBtnAction = async (movieId) => {
     const db = await openDB('movies', 1);
 
@@ -137,7 +101,7 @@ class Movie extends React.Component {
     const actionBtn =
       this.state.isMovieInFav 
         ?
-          <button onClick={() => { this.deleteMovieFromFavorites(this.state.movie.details.id)} }>Supprimer des favoris</button>
+          <button onClick={() => { deleteMovieFromFavorites(this.state.movie.details.id)} }>Supprimer des favoris</button>
         :
           <button onClick={() => { addToFavorite(this.state.movie.details) }} >Ajouter aux favoris</button>
 
