@@ -35,7 +35,7 @@ class Favorites extends React.Component {
   deleteMovieAction = movieId => {
     deleteMovieFromFavorites(movieId)
       .then(() => {
-        const movies = this.state.movies.filter(movie => movie.id !== movieId)
+        const movies = this.state.movies.filter(movie => movie.movieId !== movieId)
         this.setState({
           movies
         })
@@ -48,6 +48,7 @@ class Favorites extends React.Component {
   seeMovieDetails = id => {
     this.props.history.push(`/movie/${id}`);
   }
+  
   render() {
     const renderFavoritesMoviesSection = (movies) => {
       if (!this.state.indexedDbSupported) {

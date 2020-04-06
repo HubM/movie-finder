@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 
-import { addToFavorite } from "../helpers/_functions/index"
+import { getDatabase, addToFavorite, deleteMovieFromFavorites } from "../helpers/_functions/index"
 
 import movieFinder from "../services/MovieFinder";
 
@@ -9,11 +9,22 @@ class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      db: undefined,
       search: "",
       movies: [],
       indexedDbSupported: ('indexedDB' in window)
     }
     this.movieFinder = new movieFinder();
+  }
+
+  componentDidMount() {
+    getDatabase()
+      .then(db => {
+        this.setState({ db })
+      })
+      .catch(err => {
+        console.error(err)
+      })
   }
 
 
@@ -22,9 +33,16 @@ class Search extends React.Component {
   searchMovie = () => {
     if (this.state.search && this.state.search.length > 2) {
       this.movieFinder.searchMovie(this.state.search)
-        .then(movies => {
+        .then(async movies => {
+          const dbMovies = await this.state.db.getAllFromIndex('favorites', 'title');
+          const moviesWithFavorisInfos = movies.map(movie => {
+            return {
+              ...movie,
+              inFav: dbMovies.some(dbMovie => dbMovie.movieId === movie.id)
+            }
+          })
           this.setState({
-            movies
+            movies: moviesWithFavorisInfos
           })
         })
         .catch(error => {
@@ -33,16 +51,24 @@ class Search extends React.Component {
     }
   }
   
-  listMovies = (movies) => {
+  generateMoviesList = (movies) => {
     const listMovies = movies.map(movie => {
       const movieKey = `${movie.id}-${movie.release_date}`;
       const movieImage = this.movieFinder.getImageMovie(movie.poster_path, 200)
+
+      let btnAction = <button onClick={() => addToFavorite(movie)}>Ajouter</button>;
+
+      if (movie.inFav) {
+        btnAction = <button onClick={() => deleteMovieFromFavorites(movie.id)}>Supprimer</button>
+      }
+
       return (
         <li className="search-movie" key={movieKey}>
           <img src={movieImage} alt={`Affiche de ${movie.title}`} />
           <p className="search-movie__title">{movie.title}</p>
           <p className="search-movie__release">{movie.release_date}</p>
-          { this.state.indexedDbSupported && <button onClick={() => addToFavorite(movie)}>Ajouter</button> }
+          { this.state.indexedDbSupported && btnAction }
+          
           <button onClick={() => this.seeMovieDetails(movie.id)}>Détails</button> 
         </li>
       );
@@ -73,7 +99,7 @@ class Search extends React.Component {
         <button onClick={this.searchMovie}>Rechercher</button>
 
         { !this.state.indexedDbSupported && <p>Vous devriez utiliser un navigateur moderne pour pouvoir enregistrer vos films préférés</p> }
-        { this.state.movies.length > 0 && this.listMovies(this.state.movies) }
+        { this.state.movies.length > 0 && this.generateMoviesList(this.state.movies) }
       </section>
     )
   }
