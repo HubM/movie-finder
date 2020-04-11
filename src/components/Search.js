@@ -1,5 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import moment from "moment";
 
 import Loading from "./Loading";
 
@@ -14,6 +15,7 @@ class Search extends React.Component {
       db: undefined,
       search: "",
       movies: [],
+      moviesNotFound: false,
       indexedDbSupported: ('indexedDB' in window),
       loading: false
     }
@@ -35,11 +37,17 @@ class Search extends React.Component {
   searchMovie = () => {
     if (this.state.search.length > 2) {
       this.setState({
-        loading: true
+        loading: true,
+        moviesNotFound: false
       })
       setTimeout(() => {
         this.movieFinder.searchMovie(this.state.search)
           .then(async movies => {
+            if (!movies.length) {
+              this.setState({
+                moviesNotFound: true
+              })
+            }
             const dbMovies = await this.state.db.getAllFromIndex('favorites', 'title');
             const moviesWithFavorisInfos = movies.map(movie => {
               return {
@@ -75,10 +83,10 @@ class Search extends React.Component {
       }
 
       return (
-        <li className="search-movie" key={movieKey}>
-          <img src={movieImage} alt={`Affiche de ${movie.title}`} />
-          <p className="search-movie__title">{movie.title}</p>
-          <p className="search-movie__release">{movie.release_date}</p>
+        <li className="movie-card" key={movieKey}>
+          <img src={movieImage} alt={`Affiche de ${movie.title}`} className="movie-card__img" />
+          <p className="movie-card__title">{movie.title}</p>
+          <p className="movie-card__release">{moment(movie.release_date).format("DD/MM/YYYY")}</p>
           { this.state.indexedDbSupported && btnAction }
           
           <button onClick={() => this.seeMovieDetails(movie.id)}>Détails</button> 
@@ -106,7 +114,7 @@ class Search extends React.Component {
       return (
         <div 
           className={`reset-search ${this.state.search.length <= 2 ? "disabledBtn" : ""}`} 
-          onClick={() => this.setState({ movies: [], search: "" })}
+          onClick={() => this.setState({ movies: [], search: "", moviesNotFound: false })}
         >
           <span>+</span>
         </div>
@@ -137,6 +145,7 @@ class Search extends React.Component {
 
         { !this.state.indexedDbSupported && <p>Vous devriez utiliser un navigateur moderne pour pouvoir enregistrer vos films préférés</p> }
         { this.state.movies.length > 0 && this.generateMoviesList(this.state.movies) }
+        { this.state.moviesNotFound && <p>Aucun film ne correspond à votre cherche :(</p>}
       </section>
     )
   }
