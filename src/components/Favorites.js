@@ -3,6 +3,8 @@ import { withRouter } from "react-router-dom";
 
 import { getDatabase, deleteMovieFromFavorites } from "../helpers/_functions/index";
 
+import MovieCard from "./MovieCard";
+
 import movieFinder from "../services/MovieFinder";
 
 class Favorites extends React.Component {
@@ -48,6 +50,19 @@ class Favorites extends React.Component {
   seeMovieDetails = id => {
     this.props.history.push(`/movie/${id}`);
   }
+
+  deleteMoviefromFavAndRegenerateList = (movie) => {
+    deleteMovieFromFavorites(movie.movieId)
+    .then(() => {
+        const movies = this.state.movies.filter(mov => mov.movieId !== movie.movieId)
+        this.setState({
+          movies
+        })
+      })
+      .catch(err => {
+        console.error(err);
+      })
+  }  
   
   render() {
     const renderFavoritesMoviesSection = (movies) => {
@@ -56,26 +71,24 @@ class Favorites extends React.Component {
           <p>Vous devriez utiliser un navigateur moderne pour pouvoir consulter vos films préférés</p>
         );
       } 
-      
+
       return (
         <ul>
           {
-            movies.map(movie => {
-              const movieKey = `${movie.movieId.toString()}-${movie.release_date}`;
-              const movieImage = this.movieFinder.getImageMovie(movie.poster_path, 500);
-              return (
-                <li className="favorite-movie" key={movieKey}>
-                  <img src={movieImage} alt={`Affiche de ${movie.title}`} />
-                  <p className="favorite-movie__release">{movie.release_date}</p>
-                  <p className="favorite-movie__synopsis">{movie.overview}</p>
-                  <button onClick={() => this.deleteMovieAction(movie.movieId)}>Supprimer des favoris</button>
-                  <button onClick={() => this.seeMovieDetails(movie.movieId)}>Détails</button> 
-                </li>
-              )
-            })}
+            movies.map(movie => (
+              <MovieCard 
+                movieImage={this.movieFinder.getImageMovie(movie.poster_path, 200)} 
+                movie={movie}
+                key={`${movie.id}-${movie.release_date}`}
+                indexedDbSupported={this.state.indexedDbSupported}
+                deleteMovieFromFavorites={this.deleteMoviefromFavAndRegenerateList}
+                seeMovieDetails={() => this.seeMovieDetails(movie.id)}
+                onlyDelete={true}
+              />
+            )
+          )}
         </ul>
       );
-
     }
 
     return (

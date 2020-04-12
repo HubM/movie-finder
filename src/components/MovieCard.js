@@ -2,9 +2,10 @@ import React from "react";
 import moment from "moment";
 
 export default (props) => {
+
   let btnAction = <button onClick={() => props.addToFavorite(props.movie)} className="add-to-favorites">Ajouter</button>;
 
-  if (props.movie.inFav) {
+  if (props.onlyDelete || props.movie.inFav) {
     btnAction = <button onClick={() => props.deleteMovieFromFavorites(props.movie)} className="remove-from-favorites">Supprimer</button>
   }
 

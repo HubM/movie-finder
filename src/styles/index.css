@@ -41,6 +41,10 @@ button {
   border-radius: 20px;
 }
 
+section {
+  margin: 0 50px;;
+}
+
 .page {
   margin-top: 50px;
 }
@@ -164,13 +168,13 @@ nav > ul > li > a {
 }
 
 /* =============
-=== SEARCH PAGE
+=== SEARCH / FAVORITES PAGE
 ================ */
-.search-page {
+.search-page,
+.favorites-page {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 50px;
 }
 
 .search {
@@ -178,7 +182,7 @@ nav > ul > li > a {
   flex-direction: column;
   align-items: center;
   width: 80%;
-  margin: 25px 0 75px;
+  margin-top: 25px;
 }
 
 .search > div {
@@ -246,15 +250,18 @@ nav > ul > li > a {
   transition:  all 0.3s ease-in;
 }
 
-.search-page > ul {
+.search-page > ul,
+.favorites-page > ul {
   display: grid;
   grid-gap: 100px;
   width: 100%;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   align-items: center;
+  margin: 75px 0;
 }
 
-.search-page > ul > li {
+.search-page > ul > li,
+.favorites-page > ul > li {
   justify-self: center;
 }
 
