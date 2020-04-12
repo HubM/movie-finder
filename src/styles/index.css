@@ -43,7 +43,7 @@ button {
 }
 
 section {
-  margin: 0 50px;;
+  margin: 0 35px;
 }
 
 .page {
@@ -209,7 +209,7 @@ nav > ul > li > a {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 80%;
+  width: 100%;
   margin-top: 25px;
 }
 
@@ -281,16 +281,20 @@ nav > ul > li > a {
 .search-page > ul,
 .favorites-page > ul {
   display: grid;
-  grid-gap: 100px;
+  grid-gap: 40px;
   width: 100%;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   align-items: center;
-  margin: 75px 0;
+  margin: 25px 0 50px 0;
 }
 
 .search-page > ul > li,
 .favorites-page > ul > li {
   justify-self: center;
+}
+
+.no-favories {
+  margin-top: 25px;
 }
 
 /* ====================
@@ -342,9 +346,11 @@ nav > ul > li > a {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  width: 100%;
 }
 
-.movies-details__cover {
+.movie-details__cover {
+  width: 100%;
   flex-basis: 50%;
   display: flex;
   flex-direction: column;
@@ -352,8 +358,8 @@ nav > ul > li > a {
   align-items: center;
 }
 
-.movies-details__cover > img {
-  width: 300px;
+.movie-details__cover > img {
+  width: 100%;
   margin-bottom: 50px;
   border-radius: 5px;
 }
@@ -406,11 +412,19 @@ nav > ul > li > a {
   grid-gap: 20px;
   width: 100%;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  align-items: center;
+  align-items: flex-start;
+}
+
+.movie-details__casting > li {
+  justify-self: center;
 }
 
 .movie-details__casting > li:not(:last-of-type) {
   margin-bottom: 30px;
+}
+
+.movie-details__actor {
+  justify-self: center;
 }
 
 .movie-details__actor img {
@@ -437,8 +451,19 @@ nav > ul > li > a {
     width: 50%;
   }
 
-  .movies-details__cover > img {
+  .search-page > ul,
+  .favorites-page > ul {
+    margin: 50px 0;
+    grid-gap: 100px;
+  }
+
+  .movie-details__cover > img {
     width: 400px;
+    margin-bottom: 50px;
+  }
+
+  section {
+    margin: 0 50px;
   }
 }
 

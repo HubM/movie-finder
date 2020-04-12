@@ -93,8 +93,8 @@ class Favorites extends React.Component {
 
     return (
       <section className="favorites-page">
-        <h1>Favorites Page</h1>
-        {this.state.movies && this.state.movies.length === 0 && <p>Aucun film n'est enregistré dans vos favoris</p>}
+        <h1>Mes films</h1>
+        {this.state.movies && this.state.movies.length === 0 && <p className="no-favories">Aucun film n'est enregistré dans vos favoris <span role="img" aria-label="emoji triste">😩</span></p>}
         {this.state.movies && this.state.movies.length > 0 && renderFavoritesMoviesSection(this.state.movies)}
       </section>
     );

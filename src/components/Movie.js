@@ -7,6 +7,14 @@ import { addToFavorite, deleteMovieFromFavorites } from "../helpers/_functions/i
 
 import movieFinder from "../services/MovieFinder";
 
+
+function generateMovieBudget(budget) {
+  if (budget > 1000000) {
+    return `${budget/1000000} M$`
+  } 
+  return `${budget} $` 
+}
+
 class Movie extends React.Component {
   constructor(props) {
     super(props);
@@ -98,14 +106,8 @@ class Movie extends React.Component {
   addMovieInFavAndRegenerateList = () => {
     addToFavorite(this.state.movie.details)
     .then(() => {
-      // const movieUpdated = Object.assign(movie, {
-      //   inFav: true
-      // })
-      // const bindedMovieIndex = this.state.movies.findIndex((mov, index) => mov.id === movie.id);
-      // this.state.movies.splice(bindedMovieIndex, 1, movieUpdated);
       this.setState({
         isMovieInFav: true
-        // movies: this.state.movies
       })
     })
     .catch(err => {
@@ -116,9 +118,6 @@ class Movie extends React.Component {
   deleteMoviefromFavAndRegenerateList = () => {
     deleteMovieFromFavorites(this.state.movie.details.id)
     .then(() => {
-      // delete movie.inFav;
-      // const bindedMovieIndex = this.state.movies.findIndex((mov, index) => mov.id === movie.id);
-      // this.state.movies.splice(bindedMovieIndex, 1, movie);
       this.setState({
         isMovieInFav: false
       })
@@ -127,6 +126,8 @@ class Movie extends React.Component {
       console.error(err)
     })
   }  
+
+
 
   renderMovie = movie => {
     const { details, casting } = movie;
@@ -141,16 +142,17 @@ class Movie extends React.Component {
 
     return (
       <div>
-        <div className="movies-details__cover">
+        <div className="movie-details__cover">
           <img src={movieImage} alt={`Affiche de ${details.title}`} />
           {actionBtn}
         </div>
         <div className="movie-details__infos">
           <h1>{details.title}</h1>
 
-          <div className="movies-details__infos-main">
+          <div className="movie-details__infos-main">
             <p className="movie-details__release"><span role="img" aria-label="emoji calendrier">🗓</span> {moment(details.release_date).format("DD/MM/YYYY")}</p>
             <p><span role="img" aria-label="emoji étoile">⭐️</span> {details.vote_average}/10</p>
+            <p><span role="img" aria-label="emoji dollar">💵</span> {generateMovieBudget(this.state.movie.details.budget)}</p>
             <p><span role="img" aria-label="emoji stylo plume">🖋</span> {details.overview}</p>
 
             <ul className="movie-details__genders" arial-label="genres"> 
