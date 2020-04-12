@@ -82,7 +82,7 @@ class Favorites extends React.Component {
                 key={`${movie.id}-${movie.release_date}`}
                 indexedDbSupported={this.state.indexedDbSupported}
                 deleteMovieFromFavorites={this.deleteMoviefromFavAndRegenerateList}
-                seeMovieDetails={() => this.seeMovieDetails(movie.id)}
+                seeMovieDetails={() => this.seeMovieDetails(movie.movieId)}
                 onlyDelete={true}
               />
             )

@@ -1,6 +1,7 @@
 import React from "react";
 import { openDB } from 'idb';
 import { withRouter } from "react-router-dom";
+import moment from "moment";
 
 import { addToFavorite, deleteMovieFromFavorites } from "../helpers/_functions/index"
 
@@ -81,10 +82,10 @@ class Movie extends React.Component {
   
         const actorProfile = this.movieFinder.getActorProfile(actor.profile_path);
         return (
-          <li key={`${actor.id}-${index}`}>
+          <li key={`${actor.id}-${index}`} className="movie-details__actor">
             <img src={actorProfile} alt={`profil de l'acteur ${actor.name}`} />
             <p>{actor.name}</p>
-            <p>Rôle : {actor.character}</p>
+            <p><span role="img" aria-label="emoji cinéma">🎬</span> {actor.character}</p>
           </li>
         )
       })
@@ -94,6 +95,39 @@ class Movie extends React.Component {
     )
   }
 
+  addMovieInFavAndRegenerateList = () => {
+    addToFavorite(this.state.movie.details)
+    .then(() => {
+      // const movieUpdated = Object.assign(movie, {
+      //   inFav: true
+      // })
+      // const bindedMovieIndex = this.state.movies.findIndex((mov, index) => mov.id === movie.id);
+      // this.state.movies.splice(bindedMovieIndex, 1, movieUpdated);
+      this.setState({
+        isMovieInFav: true
+        // movies: this.state.movies
+      })
+    })
+    .catch(err => {
+      console.error(err)
+    })
+  }
+
+  deleteMoviefromFavAndRegenerateList = () => {
+    deleteMovieFromFavorites(this.state.movie.details.id)
+    .then(() => {
+      // delete movie.inFav;
+      // const bindedMovieIndex = this.state.movies.findIndex((mov, index) => mov.id === movie.id);
+      // this.state.movies.splice(bindedMovieIndex, 1, movie);
+      this.setState({
+        isMovieInFav: false
+      })
+    })
+    .catch(err => {
+      console.error(err)
+    })
+  }  
+
   renderMovie = movie => {
     const { details, casting } = movie;
     const movieImage = this.movieFinder.getImageMovie(details.poster_path, 500);
@@ -101,33 +135,36 @@ class Movie extends React.Component {
     const actionBtn =
       this.state.isMovieInFav 
         ?
-          <button onClick={() => { deleteMovieFromFavorites(this.state.movie.details.id)} }>Supprimer des favoris</button>
+          <button onClick={this.deleteMoviefromFavAndRegenerateList} className="btn-action remove-from-favorites">Supprimer des favoris</button>
         :
-          <button onClick={() => { addToFavorite(this.state.movie.details) }} >Ajouter aux favoris</button>
+          <button onClick={this.addMovieInFavAndRegenerateList} className="btn-action add-to-favorites" >Ajouter aux favoris</button>
 
     return (
       <div>
-        <img src={movieImage} alt={`Affiche de ${details.title}`} />
-        <h1>{details.title}</h1>
+        <div className="movies-details__cover">
+          <img src={movieImage} alt={`Affiche de ${details.title}`} />
+          {actionBtn}
+        </div>
+        <div className="movie-details__infos">
+          <h1>{details.title}</h1>
 
-        {actionBtn}
+          <div className="movies-details__infos-main">
+            <p className="movie-details__release"><span role="img" aria-label="emoji calendrier">🗓</span> {moment(details.release_date).format("DD/MM/YYYY")}</p>
+            <p><span role="img" aria-label="emoji étoile">⭐️</span> {details.vote_average}/10</p>
+            <p><span role="img" aria-label="emoji stylo plume">🖋</span> {details.overview}</p>
 
-        <p className="movie-details__release">{details.release_date}</p>
-        <p>{details.vote_average}/10</p>
-        <p>{details.overview}</p>
-
-        {/* Use aria-label with css => https://stackoverflow.com/a/20478913/13171072 */}
-        <p>Genres : </p>
-        <ul> 
-          {
-            details.genres.map((genre,index) => 
-              <li key={`${genre}-${index}`}>{genre.name}</li>)
-          }
-        </ul>
-        <h2>Casting</h2>
-        <ul>
-          {this.renderCastingMovie(casting)}
-        </ul>
+            <ul className="movie-details__genders" arial-label="genres"> 
+              {
+                details.genres.map((genre,index) => 
+                  <li key={`${genre}-${index}`} className="btn-action category disabledBtn">{genre.name}</li>)
+              }
+            </ul>
+          </div>
+          <h2>Casting</h2>
+          <ul className="movie-details__casting">
+            {this.renderCastingMovie(casting)}
+          </ul>
+        </div>
 
       </div>
     );

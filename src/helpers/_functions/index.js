@@ -30,7 +30,6 @@ const addToFavorite = async (movie) =>
           poster_path,
           release_date
         });
-        // console.log(await db.getAllFromIndex('favorites', 'title'))
         resolve()
       } else {
         reject("Movie always in DB");
