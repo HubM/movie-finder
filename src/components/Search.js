@@ -1,8 +1,9 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import moment from "moment";
+// import moment from "moment";
 
 import Loading from "./Loading";
+import MovieCard from "./MovieCard"
 
 import { getDatabase, addToFavorite, deleteMovieFromFavorites } from "../helpers/_functions/index"
 
@@ -70,29 +71,52 @@ class Search extends React.Component {
       }, 1000)
     }
   }
+
+  addMovieInFavAndRegenerateList = (movie) => {
+    addToFavorite(movie)
+    .then(() => {
+      const movieUpdated = Object.assign(movie, {
+        inFav: true
+      })
+      const bindedMovieIndex = this.state.movies.findIndex((mov, index) => mov.id === movie.id);
+      this.state.movies.splice(bindedMovieIndex, 1, movieUpdated);
+      this.setState({
+        movies: this.state.movies
+      })
+    })
+    .catch(err => {
+      console.error(err)
+    })
+  }
+
+  deleteMoviefromFavAndRegenerateList = (movie) => {
+    deleteMovieFromFavorites(movie.id)
+    .then(() => {
+      delete movie.inFav;
+      const bindedMovieIndex = this.state.movies.findIndex((mov, index) => mov.id === movie.id);
+      this.state.movies.splice(bindedMovieIndex, 1, movie);
+      this.setState({
+        movies: this.state.movies
+      })
+    })
+    .catch(err => {
+      console.error(err)
+    })
+  }  
   
   generateMoviesList = (movies) => {
-    const listMovies = movies.map(movie => {
-      const movieKey = `${movie.id}-${movie.release_date}`;
-      const movieImage = this.movieFinder.getImageMovie(movie.poster_path, 200)
-
-      let btnAction = <button onClick={() => addToFavorite(movie)}>Ajouter</button>;
-
-      if (movie.inFav) {
-        btnAction = <button onClick={() => deleteMovieFromFavorites(movie.id)}>Supprimer</button>
-      }
-
-      return (
-        <li className="movie-card" key={movieKey}>
-          <img src={movieImage} alt={`Affiche de ${movie.title}`} className="movie-card__img" />
-          <p className="movie-card__title">{movie.title}</p>
-          <p className="movie-card__release">{moment(movie.release_date).format("DD/MM/YYYY")}</p>
-          { this.state.indexedDbSupported && btnAction }
-          
-          <button onClick={() => this.seeMovieDetails(movie.id)}>Détails</button> 
-        </li>
-      );
-    })
+    const listMovies = movies.map(movie => (
+        <MovieCard 
+          movieImage={this.movieFinder.getImageMovie(movie.poster_path, 200)} 
+          movie={movie}
+          key={`${movie.id}-${movie.release_date}`}
+          indexedDbSupported={this.state.indexedDbSupported}
+          addToFavorite={this.addMovieInFavAndRegenerateList}
+          deleteMovieFromFavorites={this.deleteMoviefromFavAndRegenerateList}
+          seeMovieDetails={() => this.seeMovieDetails(movie.id)}
+        />
+      )
+    );
 
     return (
       <ul>

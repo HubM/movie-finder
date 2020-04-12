@@ -258,6 +258,10 @@ nav > ul > li > a {
   justify-self: center;
 }
 
+/* ====================
+=== MOVIE CARD
+===================== */
+
 .movie-card {
   padding: 20px;
   border-radius: 10px;
@@ -285,7 +289,40 @@ nav > ul > li > a {
   margin-bottom: 10px;
 }
 
+.movie-card__release {
+  font-size: 0.8rem;
+}
 
+.movie-card__action {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+} 
+
+.movie-card__action > button {
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.movie-card__action >  .remove-from-favorites {
+  background-color: var(--primaryColor);
+  color: var(--headerColor);
+  border: 0;
+}
+ 
+.movie-card__action > .add-to-favorites {
+  background-color: transparent; 
+  color: var(--primaryColor);
+  border: 1px solid var(--primaryColor);
+}
+
+.movie-card__action >  .movie-details {
+  background-color: transparent; 
+  color: var(--fontColor);
+  border: 1px solid var(--fontColor);
+}
 
 /* ====================
 === TABLET RESPONSIVE
