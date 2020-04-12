@@ -1,11 +1,11 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 
-import { getDatabase, deleteMovieFromFavorites } from "../helpers/_functions/index";
+import { getDatabase, deleteMovieFromFavorites } from "../../helpers/_functions/index";
 
-import MovieCard from "./MovieCard";
+import MovieCard from "../MovieCard";
 
-import movieFinder from "../services/MovieFinder";
+import movieFinder from "../../services/MovieFinder";
 
 class Favorites extends React.Component {
   constructor(props) {

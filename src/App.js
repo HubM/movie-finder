@@ -6,10 +6,9 @@ import {
 } from "react-router-dom";
 
 import Layout from "./components/Layout";
-import Search from "./components/Search";
-import Favorites from "./components/Favorites";
-import Profile from "./components/Profile";
-import Movie from "./components/Movie";
+import Search from "./components/views/Search";
+import Favorites from "./components/views/Favorites";
+import Movie from "./components/views/Movie";
 
 export default function App() {
   return (
@@ -17,16 +16,17 @@ export default function App() {
       <div className="App">
         <Layout>
           <Switch>
+           
             <Route path="/search">
               <Search />
             </Route>
             <Route path="/favorites">
               <Favorites />
             </Route>
-            <Route path="/me">
-              <Profile />
-            </Route>
             <Route path="/movie/:id" children={<Movie />} />
+            <Route path="/">
+              {/* <Home /> */}
+            </Route>
           </Switch>
         </Layout>
       </div>
