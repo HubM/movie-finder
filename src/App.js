@@ -6,9 +6,11 @@ import {
 } from "react-router-dom";
 
 import Layout from "./components/Layout";
+import Home from "./components/views/Home";
 import Search from "./components/views/Search";
 import Favorites from "./components/views/Favorites";
 import Movie from "./components/views/Movie";
+
 
 export default function App() {
   return (
@@ -25,7 +27,7 @@ export default function App() {
             </Route>
             <Route path="/movie/:id" children={<Movie />} />
             <Route path="/">
-              {/* <Home /> */}
+              <Home />
             </Route>
           </Switch>
         </Layout>
