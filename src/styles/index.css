@@ -405,7 +405,7 @@ nav > ul > li > a {
 }
 
 .movie-details__infos-main > p {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .movie-details__infos-main span {
@@ -487,6 +487,10 @@ nav > ul > li > a {
 
   .home {
     margin-top: 30vh;
+  }
+
+  .movie-details__infos-main > p {
+    margin-bottom: 20px;
   }
 }
 
