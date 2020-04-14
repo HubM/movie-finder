@@ -1,18 +1,22 @@
-name: Deploy MovieFinder Website
-
+name: DeployMovieFinderWebsite
 on: 
-  push:
-    branches: [ master ]
-
-jobs:
-  build:
+  push: 
+    branches: 
+      - master
+jobs: 
+  build: 
+    name: "Deploying to surge"
     runs-on: ubuntu-latest
-    name: Deploying to surge
-    steps:
+    steps: 
       - uses: actions/checkout@v1
-      - name: Install surge and fire deployment
-        uses: actions/setup-node@v1
-        with:
+      - uses: actions/setup-node@v1
+        with: 
           node-version: 8
-      - run: npm install -g surge
-      - run: surge ./ ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
+      - name: "Install surge"
+        run: "npm install -g surge"
+      - name: "build react application"
+        run: "npm run build"
+      - name: "Deploy builded app to Surge"
+        run: "surge ./build ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}"
+
+
