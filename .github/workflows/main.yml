@@ -16,9 +16,18 @@ jobs:
         run: "npm install -g surge"
       - name: "Install project dependencies"
         run: "npm install"
+      - name: "Create settings folder"
+        run: "mkdir src/settings"
+      - name: "Create file"
+        uses: finnp/create-file-action@1.0.0
+        env: 
+          FILE_NAME: "settingsFile.js"
+          FILE_DATA: "export default { apiKey: '${{ secrets.API_KEY }}' }"
+      - name: "Move settings to correct folder"
+        run: "mv settingsFile.js src/settings/index.js"
       - name: "build react application"
         run: "npm run build"
       - name: "Deploy builded app to Surge"
-        run: "surge ./build ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}"
+        run: "surge ./build --domain ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}"
 
 
