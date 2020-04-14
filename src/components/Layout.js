@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import Navigation from "./Navigation";
 import Logo from "./Logo";
 
-
 export default function Layout (props) {
   const [isOpened, changeNavState ] = useState(false);
 

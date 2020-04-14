@@ -18,7 +18,6 @@ export default function App() {
       <div className="App">
         <Layout>
           <Switch>
-           
             <Route path="/search">
               <Search />
             </Route>
