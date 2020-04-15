@@ -8,10 +8,10 @@ export default (props) => {
   if (props.onlyDelete || props.movie.inFav) {
     btnAction = <button onClick={() => props.deleteMovieFromFavorites(props.movie)} className="btn-action remove-from-favorites">Supprimer</button>
   }
-
+  
   return (
     <li className="movie-card">
-      <img src={props.movieImage} alt={`Affiche de ${props.movie.title}`} className="movie-card__img" />
+      {navigator.onLine && <img src={props.movieImage} alt={`Affiche de ${props.movie.title}`} className="movie-card__img" />}
       <p className="movie-card__title">{props.movie.title}</p>
       <p className="movie-card__release">{moment(props.movie.release_date).format("DD/MM/YYYY")}</p>
       <div className="movie-card__action">
