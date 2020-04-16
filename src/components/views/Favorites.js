@@ -94,6 +94,7 @@ class Favorites extends React.Component {
     return (
       <section className="favorites-page">
         <h1>Mes films</h1>
+        {!navigator.onLine && <p><span role="img" aria-label="émoji éclair">⚡️</span> Pour pouvoir consulter le détail de vos films favoris merci d'activer votre connexion <span role="img" aria-label="émoji éclair">⚡️</span></p>}
         {this.state.movies && this.state.movies.length === 0 && <p className="no-favories">Aucun film n'est enregistré dans vos favoris <span role="img" aria-label="emoji triste">😩</span></p>}
         {this.state.movies && this.state.movies.length > 0 && renderFavoritesMoviesSection(this.state.movies)}
       </section>

@@ -16,7 +16,7 @@ export default (props) => {
       <p className="movie-card__release">{moment(props.movie.release_date).format("DD/MM/YYYY")}</p>
       <div className="movie-card__action">
         {props.indexedDbSupported && btnAction }
-        <button onClick={() => props.seeMovieDetails(props.movie.id)} className="btn-action movie-details">Détails</button> 
+        {navigator.onLine && <button onClick={() => props.seeMovieDetails(props.movie.id)} className="btn-action movie-details">Détails</button> }
       </div>
     </li>
   )
