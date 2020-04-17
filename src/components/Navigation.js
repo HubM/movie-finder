@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export default (props) => (
   <nav>
     <ul>
-      <li className={!navigator.onLine && "disabledBtn"}>
+      <li className={!navigator.onLine ? "disabledBtn" : ""}>
         <Link to="/search" onClick={props.onClick}>Rechercher un film <span role="img" aria-label="Icône de loupe">🔍</span></Link>
       </li>
       <li>

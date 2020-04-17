@@ -69,6 +69,13 @@ section {
   shape-rendering: auto;
 }
 
+.app-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30vh;
+}
+
 /* =============
 === BTN ACTIONS
 ================ */

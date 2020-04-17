@@ -4,8 +4,7 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-
-import Logo from "./components/Logo";
+import Logo from './components/Logo';
 
 const Layout = lazy(() => import("./components/Layout"));
 const Home = lazy(() => import("./components/views/Home"))
@@ -16,14 +15,12 @@ const Movie = lazy(() => import("./components/views/Movie"))
 
 
 
+
 export default function App() {
-
-  const LoadingFallBack = <div className="loadingState">HERE
-  <Logo width="100px" height="100px" /></div>
-
+  const LoadingFallback = <div className="app-loading"><Logo width="100px" height="100px" /></div>
   return (
     <Router>
-      <Suspense fallback={LoadingFallBack}>
+      <Suspense fallback={LoadingFallback}>
         <div className="App">
           <Layout>
             <Switch>
