@@ -5,7 +5,7 @@ Vous vous empressé de noter ces références dans votre téléphone, mais vous 
 Movie finder répond à ce besoin vous proposant une interface facile à utiliser pour rechercher et enregistrer ces références. 🎬
 
 ### Comment ça marche ?
-Rendez vous sur [http://thegreatestmoviefinder.surge.sh/](http://thegreatestmoviefinder.surge.sh/) et recherchez les films qui vous intéressent.
+Rendez vous sur [https://thegreatestmoviefinder.surge.sh/](https://thegreatestmoviefinder.surge.sh/) et recherchez les films qui vous intéressent.
 L'application vous propose des résultats de films que vous pouvez consulter ou enregistrer dans votre navigateur (indexedDb).
 
 Cet enregistrement vous permettra de retrouver vos films dans la partie "Mes films".
