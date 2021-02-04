@@ -6,16 +6,16 @@ export default class movieFinder {
   } 
 
   getImageMovie(moviePath, size = 500) {
-    return moviePath ? `${this.imageBaseUrl}/w${size}${moviePath}` : "https://via.placeholder.com/200x300";
+    return moviePath ? `${this.imageBaseUrl}/w${size}${moviePath}` : `${process.env.PUBLIC_URL}/placeholder.jpg`;
   }
 
   getActorProfile(profilePath, size = 200) {
     return profilePath ? `${this.imageBaseUrl}/w${size}${profilePath}` : "https://via.placeholder.com/200x300";
   }  
 
-  searchMovie(movie) {
+  searchMovie(movie, page) {
     return new Promise((resolve, reject) => {
-      const url = `${this.apiBaseUrl}/search/movie?api_key=${settings.apiKey}&language=fr-FR&query=${movie}`;
+      const url = `${this.apiBaseUrl}/search/movie?api_key=${settings.apiKey}&language=fr-FR&query=${movie}&page=${page}`;
       fetch(url)
         .then(response => response.json())
         .then(data => {

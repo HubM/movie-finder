@@ -4,20 +4,20 @@ import { withRouter } from "react-router-dom";
 import Loading from "../Loading";
 import MovieCard from "../MovieCard"
 
-import { getDatabase, addToFavorite, deleteMovieFromFavorites } from "../../helpers/_functions/index"
+import { getDatabase, addToFavorite, deleteMovieFromFavorites } from "../../helpers/_functions"
 
 import movieFinder from "../../services/MovieFinder";
-
 class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      db: undefined,
+      db: null,
       search: "",
       movies: [],
       moviesNotFound: false,
       indexedDbSupported: ('indexedDB' in window),
-      loading: false
+      loading: false,
+      currentPage: 1
     }
     this.movieFinder = new movieFinder();
   }
@@ -34,41 +34,40 @@ class Search extends React.Component {
 
   keyPress = (event) => event.keyCode === 13 ? this.searchMovie() : false;
 
-  searchMovie = () => {
-    if (this.state.search.length > 2) {
-      this.setState({
-        loading: true,
-        moviesNotFound: false
-      })
-      setTimeout(() => {
-        this.movieFinder.searchMovie(this.state.search)
-          .then(async movies => {
-            if (!movies.length) {
-              this.setState({
-                moviesNotFound: true
-              })
+  searchMovie = (page = 1) => {
+    this.setState({
+      loading: true,
+      moviesNotFound: false
+    })
+    setTimeout(() => {
+      this.movieFinder.searchMovie(this.state.search, page)
+        .then(async movies => {
+          if (!movies.length) {
+            this.setState({
+              moviesNotFound: true
+            })
+            return;
+          }
+          const dbMovies = await this.state.db.getAllFromIndex('favorites', 'title');
+          const moviesWithFavorisInfos = movies.map(movie => {
+            return {
+              ...movie,
+              inFav: dbMovies.some(dbMovie => dbMovie.movieId === movie.id)
             }
-            const dbMovies = await this.state.db.getAllFromIndex('favorites', 'title');
-            const moviesWithFavorisInfos = movies.map(movie => {
-              return {
-                ...movie,
-                inFav: dbMovies.some(dbMovie => dbMovie.movieId === movie.id)
-              }
-            })
-            this.setState({
-              movies: moviesWithFavorisInfos,
-            })
           })
-          .catch(error => {
-            console.error(error)
+          this.setState({
+            movies: moviesWithFavorisInfos,
           })
-          .finally(() => (
-            this.setState({
-              loading: false
-            })
-          ))
-      }, 1000)
-    }
+        })
+        .catch(error => {
+          console.error(error)
+        })
+        .finally(() => (
+          this.setState({
+            loading: false
+          })
+        ))
+    }, 1000)
   }
 
   addMovieInFavAndRegenerateList = (movie) => {
@@ -117,23 +116,17 @@ class Search extends React.Component {
       )
     );
 
-    return (
-      <ul>
-        {listMovies}
-      </ul>
-    );
+    return (listMovies);
   }
 
-  seeMovieDetails = id => {
-    this.props.history.push(`/movie/${id}`);
-  }
+  seeMovieDetails = id => this.props.history.push(`/movie/${id}`);
 
   searchResetState = () => {
     if (this.state.loading) {
       return (
         <Loading width="25px" heigth="25px" />
       )
-    } else {
+    } 
       return (
         <div 
           className={`reset-search ${this.state.search.length <= 2 ? "disabledBtn" : ""}`} 
@@ -142,6 +135,26 @@ class Search extends React.Component {
           <span>+</span>
         </div>
       );
+  }
+
+  seeOtherPage = (type) => {
+    window.scroll({
+      top: 0, 
+      left: 0, 
+      behavior: 'smooth'
+    });
+    if (type === 1) {
+      this.setState(prevState => ({
+        currentPage: prevState.currentPage + 1
+      }), () => {
+        this.searchMovie(this.state.currentPage)
+      })
+    } else {
+      this.setState(prevState => ({
+        currentPage: prevState.currentPage - 1
+      }), () => {
+        this.searchMovie(this.state.currentPage)
+      })
     }
   }
 
@@ -160,15 +173,26 @@ class Search extends React.Component {
               value={this.state.search}
               className={`search-input ${this.state.search.length > 2 ? "usable" : ""}`}
             />
-            
             {this.searchResetState()}
           </div>
           <button onClick={this.searchMovie} className={`search-action ${this.state.search.length <= 2 ? "disabledBtn" : ""}`}>Rechercher</button>
         </div>
 
-        { !this.state.indexedDbSupported && <p>Vous devriez utiliser un navigateur moderne pour pouvoir enregistrer vos films préférés</p> }
-        { this.state.movies.length > 0 && this.generateMoviesList(this.state.movies) }
-        { this.state.moviesNotFound && <p>Aucun film ne correspond à votre cherche :(</p>}
+        {!this.state.indexedDbSupported && <p>Vous devriez utiliser un navigateur moderne pour pouvoir enregistrer vos films préférés</p>}
+        { this.state.moviesNotFound 
+          ?
+            <p>Aucun film ne correspond à votre cherche :(</p> 
+          :
+            <div className="movies-section">
+              <div className="movies-list">
+                <ul>{this.generateMoviesList(this.state.movies)}</ul>
+              </div>
+              <div className="pagination">
+                {this.state.currentPage > 1 && <p className="pagination__prev" onClick={() => this.seeOtherPage(-1)}>Précédent</p>}
+                {this.state.movies.length > 0 && <p onClick={() => this.seeOtherPage(1)}>Suivant</p>}
+              </div>
+            </div>
+        }
       </section>
     )
   }

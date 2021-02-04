@@ -304,7 +304,7 @@ nav > ul > li > a {
   transition:  all 0.3s ease-in;
 }
 
-.search-page > ul,
+.search-page ul,
 .favorites-page > ul {
   display: grid;
   grid-gap: 40px;
@@ -314,13 +314,17 @@ nav > ul > li > a {
   margin: 25px 0 50px 0;
 }
 
-.search-page > ul > li,
+.search-page ul > li,
 .favorites-page > ul > li {
   justify-self: center;
 }
 
 .no-favories {
   margin-top: 25px;
+}
+
+.movies-list, .movies-section {
+  width: 100%;
 }
 
 /* ====================
@@ -502,6 +506,19 @@ nav > ul > li > a {
 }
 
 /* ====================
+=== PAGINATION
+===================== */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.pagination__prev {
+  margin-right: 50px;  
+}
+
+/* ====================
 === TABLET RESPONSIVE
 ===================== */
 @media screen and (min-width: 1024px) {
@@ -520,3 +537,4 @@ nav > ul > li > a {
     width: 40%;
   }
 }
+
