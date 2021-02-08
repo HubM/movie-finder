@@ -11,7 +11,7 @@ export default (props) => {
   
   return (
     <li className="movie-card">
-      {navigator.onLine && <img src={props.movieImage} alt={`Affiche de ${props.movie.title}`} className="movie-card__img" />}
+      {navigator.onLine && <img src={props.movieImage} onClick={() => props.seeMovieDetails(props.movie.id)} alt={`Affiche de ${props.movie.title}`} className="movie-card__img cursorPointer" />}
       <p className="movie-card__title">{props.movie.title}</p>
       <p className="movie-card__release">{moment(props.movie.release_date).format("DD/MM/YYYY")}</p>
       <div className="movie-card__action">

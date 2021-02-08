@@ -10,6 +10,8 @@
   --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
   sans-serif;
+  --h1FS: 1.6rem;
+  --h2FS: 1.3rem;
 }
 
 body {
@@ -45,18 +47,24 @@ section {
   margin: 0 35px;
 }
 
+h1 { font-size: var(--h1FS); }
+h2 { font-size: var(--h2FS); }
+
 .page {
   margin-top: 50px;
 }
 
 .page h1 {
-  font-size: 1.6rem;
   margin-bottom: 25px;
 }
 
 .disabledBtn {
   pointer-events: none;
   opacity: 0.4;
+}
+
+.cursorPointer {
+  cursor: pointer;
 }
 
 /* =============
@@ -88,13 +96,13 @@ section {
   border: 1px solid var(--fontColor); 
 }
 
-.btn-action.remove-from-favorites {
+.remove-from-favorites {
   background-color: var(--primaryColor);
   color: var(--headerColor);
   border: 0;
 }
  
-.btn-action.add-to-favorites {
+.add-to-favorites {
   background-color: transparent; 
   color: var(--primaryColor);
   border: 1px solid var(--primaryColor);
@@ -331,6 +339,7 @@ nav > ul > li > a {
 === MOVIE CARD
 ===================== */
 .movie-card {
+  min-width: 200px;
   padding: 20px;
   border-radius: 10px;
   background-color: var(--headerColor);
@@ -347,6 +356,7 @@ nav > ul > li > a {
 }
 
 .movie-card__img {
+  max-height: 300px;
   border-radius: 5px;
   margin-bottom: 15px;
 }
@@ -369,9 +379,9 @@ nav > ul > li > a {
 } 
 
 /* ====================
-=== MOVIE DETAILS PAGE
+=== LAYOUT SINGLE
 ===================== */
-.movie-details > div {
+.layout-single > div {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -379,7 +389,7 @@ nav > ul > li > a {
   width: 100%;
 }
 
-.movie-details__cover {
+.layout-single__cover {
   width: 100%;
   flex-basis: 50%;
   display: flex;
@@ -388,41 +398,43 @@ nav > ul > li > a {
   align-items: center;
 }
 
-.movie-details__cover > img {
+.layout-single__cover > img {
   width: 100%;
   margin-bottom: 50px;
   border-radius: 5px;
 }
 
-
-.movie-details__infos {
+.layout-single__left {
   flex-basis: 50%;
   margin: 50px 0;
 }
 
-.movie-details__infos > h1 {
+.layout-single__left > h1 {
   font-weight: 700;
   margin-bottom: 40px;
 }
 
-.movie-details__infos > h2 {
-  font-size: 1.3rem;
+.layout-single__left > h2 {
+
   font-weight: 500;
   margin-bottom: 40px;
 }
 
-.movie-details__infos-main {
+.layout-single__left-main {
   font-size: 0.9rem;
 }
 
-.movie-details__infos-main > p {
+.layout-single__left-main > p {
   margin-bottom: 10px;
 }
 
-.movie-details__infos-main span {
+.layout-single__left-main span {
   font-style: normal;
 }
 
+/* ====================
+=== MOVIE DETAILS PAGE
+===================== */
 .movie-details__genders {
   display: flex;
   margin: 20px 0 50px 0;
@@ -437,7 +449,7 @@ nav > ul > li > a {
   margin-right: 10px;
 }
 
-.movie-details__casting {
+.movie-layout-single__right {
   display: grid;
   grid-gap: 20px;
   width: 100%;
@@ -445,11 +457,11 @@ nav > ul > li > a {
   align-items: flex-start;
 }
 
-.movie-details__casting > li {
+.movie-layout-single__right > li {
   justify-self: center;
 }
 
-.movie-details__casting > li:not(:last-of-type) {
+.movie-layout-single__right > li:not(:last-of-type) {
   margin-bottom: 30px;
 }
 
@@ -472,6 +484,19 @@ nav > ul > li > a {
   margin: 10px 0;
 }
 
+/* ====================
+=== ACTOR DETAILS PAGE
+===================== */
+.actor-details h1 {
+  margin-bottom: 0;
+}
+
+.actor-details__age {
+  display: block;
+  font-size: 0.8rem;
+  font-style: italic;
+  margin: 10px 0 40px 0;
+}
 
 /* ====================
 === MOBILE RESPONSIVE
@@ -487,7 +512,7 @@ nav > ul > li > a {
     grid-gap: 100px;
   }
 
-  .movie-details__cover > img {
+  .layout-single__cover > img {
     width: 400px;
     margin-bottom: 50px;
   }
@@ -500,7 +525,7 @@ nav > ul > li > a {
     margin-top: 30vh;
   }
 
-  .movie-details__infos-main > p {
+  .layout-single__left-main > p {
     margin-bottom: 20px;
   }
 }
