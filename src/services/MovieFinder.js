@@ -28,6 +28,38 @@ export default class movieFinder {
     })
   }
 
+  getActorDetails(actorId) {
+    return new Promise((resolve, reject) => {
+      const urlDetails = `${this.apiBaseUrl}/person/${actorId}?api_key=${settings.apiKey}&language=fr-FR`;
+      fetch(urlDetails)
+      .then(response => response.json())
+      .then(data => {
+        if (!data) {
+          return reject()
+        }
+
+        return resolve(data);
+      })
+    })
+  }
+
+  getActorMovies(actorId) {
+    return new Promise((resolve, reject) => {
+      const urlDetails = `${this.apiBaseUrl}/person/${actorId}/movie_credits?api_key=${settings.apiKey}&language=fr-FR`;
+      fetch(urlDetails)
+      .then(response => response.json())
+      .then(data => {
+        if (!data) {
+          return reject()
+        }
+
+        return resolve(data);
+      })
+    })
+  }
+
+  
+
   getMovieDetail(movieId) {
     return new Promise((resolve, reject) => {
       const url = `${this.apiBaseUrl}/movie/${movieId}?api_key=${settings.apiKey}&language=fr-FR`;

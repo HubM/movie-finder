@@ -7,7 +7,6 @@ import { addToFavorite, deleteMovieFromFavorites } from "../../helpers/_function
 
 import movieFinder from "../../services/MovieFinder";
 
-
 class Movie extends React.Component {
   constructor(props) {
     super(props);
@@ -139,37 +138,37 @@ class Movie extends React.Component {
           <button onClick={this.deleteMoviefromFavAndRegenerateList} className="btn-action remove-from-favorites">Supprimer des favoris</button>
         :
           <button onClick={this.addMovieInFavAndRegenerateList} className="btn-action add-to-favorites" >Ajouter aux favoris</button>
-
-    return (
-      <div>
-        <div className="layout-single__cover">
-          <img src={movieImage} alt={`Affiche de ${details.title}`} />
-          {actionBtn}
-        </div>
-        <div className="layout-single__left">
-          <h1>{details.title}</h1>
-
-          <div className="layout-single__left-main">
-            <p className="movie-details__release"><span role="img" aria-label="emoji calendrier">🗓</span> {moment(details.release_date).format("DD/MM/YYYY")}</p>
-            <p><span role="img" aria-label="emoji étoile">⭐️</span> {details.vote_average}/10</p>
-            { budget && <p><span role="img" aria-label="emoji dollar">💵</span> {budget}</p> }
-            <p><span role="img" aria-label="emoji stylo plume">🖋</span> {details.overview}</p>
-
-            <ul className="movie-details__genders" arial-label="genres"> 
-              {
-                details.genres.map(
-                  (genre,index) => <li key={`${genre}-${index}`} className="btn-action category disabledBtn">{genre.name}</li>
-                )
-              }
-            </ul>
+      
+        return (
+          <div>
+            <div className="layout-single__cover">
+              <img src={movieImage} alt={`Affiche de ${details.title}`} />
+              {actionBtn}
+            </div>
+            <div className="layout-single__left">
+              <h1>{details.title}</h1>
+    
+              <div className="layout-single__left-main">
+                <p className="movie-details__release"><span role="img" aria-label="emoji calendrier">🗓</span> {moment(details.release_date).format("DD/MM/YYYY")}</p>
+                <p><span role="img" aria-label="emoji étoile">⭐️</span> {details.vote_average}/10</p>
+                { budget && <p><span role="img" aria-label="emoji dollar">💵</span> {budget}</p> }
+                <p><span role="img" aria-label="emoji stylo plume">🖋</span> {details.overview}</p>
+    
+                <ul className="movie-details__genders" arial-label="genres"> 
+                  {
+                    details.genres.map(
+                      (genre,index) => <li key={`${genre}-${index}`} className="btn-action category disabledBtn">{genre.name}</li>
+                    )
+                  }
+                </ul>
+              </div>
+              <h2>Casting</h2>
+              <ul className="movie-layout-single__right">
+                {this.renderCastingMovie(casting)}
+              </ul>
+            </div>
           </div>
-          <h2>Casting</h2>
-          <ul className="movie-layout-single__right">
-            {this.renderCastingMovie(casting)}
-          </ul>
-        </div>
-      </div>
-    );
+        );
   }
      
   render() {
