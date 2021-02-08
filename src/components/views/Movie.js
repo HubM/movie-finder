@@ -3,7 +3,7 @@ import { openDB } from 'idb';
 import { withRouter } from "react-router-dom";
 import moment from "moment";
 
-import { addToFavorite, deleteMovieFromFavorites } from "../../helpers/_functions/index"
+import { addToFavorite, deleteMovieFromFavorites } from "../../helpers/_functions/db"
 
 import movieFinder from "../../services/MovieFinder";
 

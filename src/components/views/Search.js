@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import Loading from "../Loading";
 import MovieCard from "../MovieCard"
 
-import { getDatabase, addToFavorite, deleteMovieFromFavorites } from "../../helpers/_functions"
+import { getDatabase, addToFavorite, deleteMovieFromFavorites } from "../../helpers/_functions/db"
 
 import movieFinder from "../../services/MovieFinder";
 class Search extends React.Component {
