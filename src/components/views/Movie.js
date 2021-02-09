@@ -140,12 +140,12 @@ class Movie extends React.Component {
           <button onClick={this.addMovieInFavAndRegenerateList} className="btn-action add-to-favorites" >Ajouter aux favoris</button>
       
         return (
-          <div>
-            <div className="layout-single__cover">
+          <div className="layout-single__primary">
+            <div className="layout-single__primary__cover">
               <img src={movieImage} alt={`Affiche de ${details.title}`} />
               {actionBtn}
             </div>
-            <div className="layout-single__left">
+            <div className="layout-single__primary__infos">
               <h1>{details.title}</h1>
     
               <div className="layout-single__left-main">

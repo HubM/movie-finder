@@ -67,14 +67,12 @@ class Actor extends React.Component {
 
     return (
       <div className="layout-single__primary">
-        <div className="layout-single__cover">
+        <div className="layout-single__primary__cover">
           <img src={actorImage} alt={`Affiche de ${actorDetails.name}`} />
         </div>
-        <div className="layout-single__left">
+        <div className="layout-single__primary__infos">
           <h1>{actorDetails.name}</h1>
-          {
-            actorAge && <span className="actor-details__age">{actorAge}</span>
-          }
+          { actorAge && <span className="actor-details__age">{actorAge}</span>}
           <div className="layout-single__left-main">
             { actorBirthday && birthPlace && <p><span role="img" aria-label="emoji poussin">🐣</span> {actorBirthday} - {birthPlace}</p>}
             { actorDetails.deathday && <p><span role="img" aria-label="emoji cerceuil">⚰️</span> {actorDeathday}</p>}
@@ -98,7 +96,7 @@ class Actor extends React.Component {
   
 
   renderActorMovies = actorMovies => {
-    const sortedActorMovies = actorMovies.cast.sort((prevMovie, nextMovie) => prevMovie.vote_average > nextMovie.vote_average ? -1 : 1).slice(0,9)
+    const sortedActorMovies = actorMovies.cast.sort((prevMovie, nextMovie) => prevMovie.vote_average > nextMovie.vote_average ? -1 : 1).slice(0,12)
     return (
       <div className="layout-single__right movies-section">
         <h2>Films</h2>
