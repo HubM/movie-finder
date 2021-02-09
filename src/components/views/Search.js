@@ -103,7 +103,7 @@ class Search extends React.Component {
   }  
   
   generateMoviesList = (movies) => {
-    const listMovies = movies.map(movie => (
+    return movies.map(movie => (
         <MovieCard 
           movieImage={this.movieFinder.getImageMovie(movie.poster_path, 200)} 
           movie={movie}
@@ -115,8 +115,6 @@ class Search extends React.Component {
         />
       )
     );
-
-    return (listMovies);
   }
 
   seeMovieDetails = id => this.props.history.push(`/movie/${id}`);
@@ -185,7 +183,7 @@ class Search extends React.Component {
           :
             <div className="movies-section">
               <div className="movies-list">
-                <ul>{this.generateMoviesList(this.state.movies)}</ul>
+                <ul className="layout-list">{this.generateMoviesList(this.state.movies)}</ul>
               </div>
               <div className="pagination">
                 {this.state.currentPage > 1 && <p className="pagination__prev" onClick={() => this.seeOtherPage(-1)}>Précédent</p>}

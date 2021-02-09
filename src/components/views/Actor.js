@@ -4,6 +4,7 @@ import moment from "moment";
 
 import movieFinder from "../../services/MovieFinder";
 
+import MovieCard from "../MovieCard";
 class Actor extends React.Component {
   constructor(props) {
     super(props);
@@ -21,7 +22,7 @@ class Actor extends React.Component {
       this.fetchActor(this.props.match.params.id);
       this.fetchActorMovies(this.props.match.params.id);
     } else {
-      console.log("Impossible de récupérer le détail du film")
+      console.log("Impossible de récupérer le détail de l'acteur")
     }
   }
 
@@ -91,16 +92,24 @@ class Actor extends React.Component {
     )
   }
 
-  renderActorMovies = actorMovies => {
+  seeMovieDetails = id => this.props.history.push(`/movie/${id}`);
 
-    const sortedActorMovies = actorMovies.cast.sort((prevMovie, nextMovie) => prevMovie.vote_average > nextMovie.vote_average ? -1 : 1)
-    console.log(sortedActorMovies)
+  renderMovie = movie => (
+    <MovieCard 
+      movieImage={this.movieFinder.getImageMovie(movie.poster_path, 200)} 
+      movie={movie}
+      key={`${movie.id}-${movie.release_date}`}
+      seeMovieDetails={() => this.seeMovieDetails(movie.id)}
+    />
+  )
+  
+
+  renderActorMovies = actorMovies => {
+    const sortedActorMovies = actorMovies.cast.sort((prevMovie, nextMovie) => prevMovie.vote_average > nextMovie.vote_average ? -1 : 1).slice(0,9)
     return (
-      <div className="layout-single__right">
+      <div className="layout-single__right movies-section">
         <h2>Films</h2>
-        <ul className="movie-layout-single__right">
-          {/* {this.renderCastingMovie(casting)} */}
-        </ul>
+        <ul className="layout-list movies-list">{ sortedActorMovies.map(movie => this.renderMovie(movie))}</ul>
       </div>
     )
   }
@@ -108,7 +117,6 @@ class Actor extends React.Component {
   render() {
     return (
       <section className="single-layout actor-details">
-      {/* { this.state.errorFetch && <p>Impossible de récupérer les informations du film {this.props.params.match.id}</p> }  */}
       { this.state.actorDetails && this.renderActorDetails(this.state.actorDetails) }
       { this.state.actorMovies && this.renderActorMovies(this.state.actorMovies) }
       </section>

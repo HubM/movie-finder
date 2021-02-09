@@ -73,7 +73,7 @@ class Favorites extends React.Component {
       } 
 
       return (
-        <ul>
+        <ul className="layout-list">
           {
             movies.map(movie => (
               <MovieCard 
