@@ -7,7 +7,7 @@ import {
 
 import LoadingLogo from "./components/loading/logo";
 
-const Layout = lazy(() => import("./components/Layout"));
+const Layout = lazy(() => import("./components/helpers/Layout"));
 const Home = lazy(() => import("./components/views/Home"))
 const Search = lazy(() => import("./components/views/Search"))
 const Favorites = lazy(() => import("./components/views/Favorites"))

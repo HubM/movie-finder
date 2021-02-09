@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 
 import { getDatabase, deleteMovieFromFavorites } from "../../helpers/_functions/db";
 
-import MovieCard from "../MovieCard";
+import MovieCard from "../helpers/MovieCard";
 
 import movieFinder from "../../services/MovieFinder";
 

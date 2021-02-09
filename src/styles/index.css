@@ -67,6 +67,10 @@ h2 { font-size: var(--h2FS); }
   cursor: pointer;
 }
 
+.textAlignLeft {
+  text-align: left;
+}
+
 /* =============
 === LOADING
 ================ */
@@ -338,7 +342,9 @@ nav > ul > li > a {
 === MOVIE CARD
 ===================== */
 .movie-card {
-  min-width: 200px;
+  max-width: 200px;
+  display: block;
+  margin: 0 auto;
   padding: 20px;
   border-radius: 10px;
   background-color: var(--headerColor);
@@ -402,6 +408,13 @@ nav > ul > li > a {
   margin-bottom: 50px;
   border-radius: 5px;
 }
+
+.layout-single__primary {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
 
 .layout-single__left {
   flex-basis: 50%;
@@ -543,9 +556,22 @@ nav > ul > li > a {
 }
 
 /* ====================
+=== CUSTOM RESPONSIVE
+===================== */
+@media screen and (min-width: 500px) {
+  .movie-card {
+    min-width: 200px;
+  }
+}
+
+/* ====================
 === TABLET RESPONSIVE
 ===================== */
 @media screen and (min-width: 1024px) {
+  .layout-single__primary {
+    flex-direction: row;
+    text-align: left;
+  }
   .movie-details > div {
     flex-direction: row;
     justify-content: space-between;

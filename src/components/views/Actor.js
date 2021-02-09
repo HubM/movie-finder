@@ -4,7 +4,7 @@ import moment from "moment";
 
 import movieFinder from "../../services/MovieFinder";
 
-import MovieCard from "../MovieCard";
+import MovieCard from "../helpers/MovieCard";
 class Actor extends React.Component {
   constructor(props) {
     super(props);
@@ -66,7 +66,7 @@ class Actor extends React.Component {
     const actorDeathday = actorDetails.deathday || null;
 
     return (
-      <div>
+      <div className="layout-single__primary">
         <div className="layout-single__cover">
           <img src={actorImage} alt={`Affiche de ${actorDetails.name}`} />
         </div>
@@ -76,16 +76,9 @@ class Actor extends React.Component {
             actorAge && <span className="actor-details__age">{actorAge}</span>
           }
           <div className="layout-single__left-main">
-            {
-              actorBirthday && birthPlace && <p><span role="img" aria-label="emoji poussin">🐣</span> {actorBirthday} - {birthPlace}</p>
-            }
-       
-            {
-              actorDetails.deathday && <p><span role="img" aria-label="emoji cerceuil">⚰️</span> {actorDeathday}</p>
-            }
-            {
-              actorDetails.biography && <p><span role="img" aria-label="emoji style plume">🖋</span> {actorDetails.biography}</p>
-            }
+            { actorBirthday && birthPlace && <p><span role="img" aria-label="emoji poussin">🐣</span> {actorBirthday} - {birthPlace}</p>}
+            { actorDetails.deathday && <p><span role="img" aria-label="emoji cerceuil">⚰️</span> {actorDeathday}</p>}
+            { actorDetails.biography && <p className="textAlignLeft"><span role="img" aria-label="emoji style plume">🖋</span> {actorDetails.biography}</p>}
           </div>
         </div>
       </div>

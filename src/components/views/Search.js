@@ -2,7 +2,7 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 
 import Loading from "../../components/loading/search";
-import MovieCard from "../MovieCard"
+import MovieCard from "../helpers/MovieCard"
 
 import { getDatabase, addToFavorite, deleteMovieFromFavorites } from "../../helpers/_functions/db"
 
@@ -186,8 +186,8 @@ class Search extends React.Component {
                 <ul className="layout-list">{this.generateMoviesList(this.state.movies)}</ul>
               </div>
               <div className="pagination">
-                {this.state.currentPage > 1 && <p className="pagination__prev" onClick={() => this.seeOtherPage(-1)}>Précédent</p>}
-                {this.state.movies.length > 0 && <p onClick={() => this.seeOtherPage(1)}>Suivant</p>}
+                {this.state.currentPage > 1 && <p className="pagination__prev cursorPointer" onClick={() => this.seeOtherPage(-1)}>Précédent</p>}
+                {this.state.movies.length > 0 && <p className="cursorPointer" onClick={() => this.seeOtherPage(1)}>Suivant</p>}
               </div>
             </div>
         }

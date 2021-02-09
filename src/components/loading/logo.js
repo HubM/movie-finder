@@ -1,6 +1,6 @@
 import React from "react";
 
-import Logo from "../Logo";
+import Logo from "../helpers/Logo";
 
 class LoadingLogo extends React.Component {
   render() {
