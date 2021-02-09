@@ -1,10 +1,10 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 
-import Loading from "../Loading";
-import MovieCard from "../MovieCard"
+import Loading from "../../components/loading/search";
+import MovieCard from "../helpers/MovieCard"
 
-import { getDatabase, addToFavorite, deleteMovieFromFavorites } from "../../helpers/_functions"
+import { getDatabase, addToFavorite, deleteMovieFromFavorites } from "../../helpers/_functions/db"
 
 import movieFinder from "../../services/MovieFinder";
 class Search extends React.Component {
@@ -103,7 +103,7 @@ class Search extends React.Component {
   }  
   
   generateMoviesList = (movies) => {
-    const listMovies = movies.map(movie => (
+    return movies.map(movie => (
         <MovieCard 
           movieImage={this.movieFinder.getImageMovie(movie.poster_path, 200)} 
           movie={movie}
@@ -115,8 +115,6 @@ class Search extends React.Component {
         />
       )
     );
-
-    return (listMovies);
   }
 
   seeMovieDetails = id => this.props.history.push(`/movie/${id}`);
@@ -185,11 +183,11 @@ class Search extends React.Component {
           :
             <div className="movies-section">
               <div className="movies-list">
-                <ul>{this.generateMoviesList(this.state.movies)}</ul>
+                <ul className="layout-list">{this.generateMoviesList(this.state.movies)}</ul>
               </div>
               <div className="pagination">
-                {this.state.currentPage > 1 && <p className="pagination__prev" onClick={() => this.seeOtherPage(-1)}>Précédent</p>}
-                {this.state.movies.length > 0 && <p onClick={() => this.seeOtherPage(1)}>Suivant</p>}
+                {this.state.currentPage > 1 && <p className="pagination__prev cursorPointer" onClick={() => this.seeOtherPage(-1)}>Précédent</p>}
+                {this.state.movies.length > 0 && <p className="cursorPointer" onClick={() => this.seeOtherPage(1)}>Suivant</p>}
               </div>
             </div>
         }

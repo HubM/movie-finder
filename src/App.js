@@ -4,20 +4,18 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-import Logo from './components/Logo';
 
-const Layout = lazy(() => import("./components/Layout"));
+import LoadingLogo from "./components/loading/logo";
+
+const Layout = lazy(() => import("./components/helpers/Layout"));
 const Home = lazy(() => import("./components/views/Home"))
 const Search = lazy(() => import("./components/views/Search"))
 const Favorites = lazy(() => import("./components/views/Favorites"))
 const Movie = lazy(() => import("./components/views/Movie"))
-
-
-
-
+const Actor = lazy(() => import("./components/views/Actor"));
 
 export default function App() {
-  const LoadingFallback = <div className="app-loading"><Logo width="100px" height="100px" /></div>
+  const LoadingFallback = <LoadingLogo />
   return (
     <Router>
       <Suspense fallback={LoadingFallback}>
@@ -31,6 +29,7 @@ export default function App() {
                 <Favorites />
               </Route>
               <Route path="/movie/:id" children={<Movie />} />
+              <Route path="/actor/:id" children={<Actor />} />
               <Route path="/">
                 <Home />
               </Route>

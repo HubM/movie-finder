@@ -1,9 +1,9 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 
-import { getDatabase, deleteMovieFromFavorites } from "../../helpers/_functions/index";
+import { getDatabase, deleteMovieFromFavorites } from "../../helpers/_functions/db";
 
-import MovieCard from "../MovieCard";
+import MovieCard from "../helpers/MovieCard";
 
 import movieFinder from "../../services/MovieFinder";
 
@@ -73,7 +73,7 @@ class Favorites extends React.Component {
       } 
 
       return (
-        <ul>
+        <ul className="layout-list">
           {
             movies.map(movie => (
               <MovieCard 

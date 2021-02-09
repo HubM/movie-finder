@@ -3,17 +3,9 @@ import { openDB } from 'idb';
 import { withRouter } from "react-router-dom";
 import moment from "moment";
 
-import { addToFavorite, deleteMovieFromFavorites } from "../../helpers/_functions/index"
+import { addToFavorite, deleteMovieFromFavorites } from "../../helpers/_functions/db"
 
 import movieFinder from "../../services/MovieFinder";
-
-
-function generateMovieBudget(budget) {
-  if (budget > 1000000) {
-    return `${budget/1000000} M$`
-  } 
-  return `${budget} $` 
-}
 
 class Movie extends React.Component {
   constructor(props) {
@@ -73,15 +65,17 @@ class Movie extends React.Component {
     const existingMovie = dbMovies.find(movie => movie.movieId === parseInt(movieId));
     
     if(existingMovie) {
-      this.setState({
+      return this.setState({
         isMovieInFav: true
       })
-    } else {
-      this.setState({
+    } 
+      
+    return this.setState({
         isMovieInFav: false
       })
-    }
   }
+
+  seeCastingMember = id => this.props.history.push(`/actor/${id}`)
 
   renderCastingMovie = casting => {
     if (casting.cast && casting.cast.length) {
@@ -90,8 +84,8 @@ class Movie extends React.Component {
   
         const actorProfile = this.movieFinder.getActorProfile(actor.profile_path);
         return (
-          <li key={`${actor.id}-${index}`} className="movie-details__actor">
-            <img src={actorProfile} alt={`profil de l'acteur ${actor.name}`} />
+          <li key={`${actor.id}-${index}`} className="movie-details__actor cursorPointer">
+            <img src={actorProfile} alt={`profil de l'acteur ${actor.name}`} onClick={() => this.seeCastingMember(actor.id)} />
             <p>{actor.name}</p>
             <p><span role="img" aria-label="emoji cinéma">🎬</span> {actor.character}</p>
           </li>
@@ -127,54 +121,59 @@ class Movie extends React.Component {
     })
   }  
 
-
-
   renderMovie = movie => {
     const { details, casting } = movie;
     const movieImage = this.movieFinder.getImageMovie(details.poster_path, 500);
+    let budget = null
 
+    if (details.budget) {
+      if (details.budget > 1000000) {
+        budget =  `${details.budget/1000000} M$`
+      } 
+      budget = `${budget} $` 
+    }
     const actionBtn =
       this.state.isMovieInFav 
         ?
           <button onClick={this.deleteMoviefromFavAndRegenerateList} className="btn-action remove-from-favorites">Supprimer des favoris</button>
         :
           <button onClick={this.addMovieInFavAndRegenerateList} className="btn-action add-to-favorites" >Ajouter aux favoris</button>
-
-    return (
-      <div>
-        <div className="movie-details__cover">
-          <img src={movieImage} alt={`Affiche de ${details.title}`} />
-          {actionBtn}
-        </div>
-        <div className="movie-details__infos">
-          <h1>{details.title}</h1>
-
-          <div className="movie-details__infos-main">
-            <p className="movie-details__release"><span role="img" aria-label="emoji calendrier">🗓</span> {moment(details.release_date).format("DD/MM/YYYY")}</p>
-            <p><span role="img" aria-label="emoji étoile">⭐️</span> {details.vote_average}/10</p>
-            <p><span role="img" aria-label="emoji dollar">💵</span> {generateMovieBudget(this.state.movie.details.budget)}</p>
-            <p><span role="img" aria-label="emoji stylo plume">🖋</span> {details.overview}</p>
-
-            <ul className="movie-details__genders" arial-label="genres"> 
-              {
-                details.genres.map((genre,index) => 
-                  <li key={`${genre}-${index}`} className="btn-action category disabledBtn">{genre.name}</li>)
-              }
-            </ul>
+      
+        return (
+          <div className="layout-single__primary">
+            <div className="layout-single__primary__cover">
+              <img src={movieImage} alt={`Affiche de ${details.title}`} />
+              {actionBtn}
+            </div>
+            <div className="layout-single__primary__infos">
+              <h1>{details.title}</h1>
+    
+              <div className="layout-single__left-main">
+                <p className="movie-details__release"><span role="img" aria-label="emoji calendrier">🗓</span> {moment(details.release_date).format("DD/MM/YYYY")}</p>
+                <p><span role="img" aria-label="emoji étoile">⭐️</span> {details.vote_average}/10</p>
+                { budget && <p><span role="img" aria-label="emoji dollar">💵</span> {budget}</p> }
+                <p><span role="img" aria-label="emoji stylo plume">🖋</span> {details.overview}</p>
+    
+                <ul className="movie-details__genders" arial-label="genres"> 
+                  {
+                    details.genres.map(
+                      (genre,index) => <li key={`${genre}-${index}`} className="btn-action category disabledBtn">{genre.name}</li>
+                    )
+                  }
+                </ul>
+              </div>
+              <h2>Casting</h2>
+              <ul className="movie-layout-single__right">
+                {this.renderCastingMovie(casting)}
+              </ul>
+            </div>
           </div>
-          <h2>Casting</h2>
-          <ul className="movie-details__casting">
-            {this.renderCastingMovie(casting)}
-          </ul>
-        </div>
-
-      </div>
-    );
+        );
   }
      
   render() {
     return (
-      <section className="movie-details">
+      <section className="single-layout movie-details">
         { this.state.errorFetch && <p>Impossible de récupérer les informations du film {this.props.params.match.id}</p> } 
         { this.state.movie && this.renderMovie(this.state.movie) }
       </section>
