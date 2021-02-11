@@ -150,9 +150,9 @@ class Movie extends React.Component {
     
               <div className="layout-single__left-main">
                 <p className="movie-details__release"><span role="img" aria-label="emoji calendrier">🗓</span> {moment(details.release_date).format("DD/MM/YYYY")}</p>
-                <p><span role="img" aria-label="emoji étoile">⭐️</span> {details.vote_average}/10</p>
+                { details.vote_average && <p><span role="img" aria-label="emoji étoile">⭐️</span> {details.vote_average}/10</p>}
                 { budget && <p><span role="img" aria-label="emoji dollar">💵</span> {budget}</p> }
-                <p><span role="img" aria-label="emoji stylo plume">🖋</span> {details.overview}</p>
+                { details.overview && <p className="longText"><span role="img" aria-label="emoji stylo plume">🖋</span> {details.overview}</p>}
     
                 <ul className="movie-details__genders" arial-label="genres"> 
                   {

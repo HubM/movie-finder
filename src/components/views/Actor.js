@@ -76,7 +76,7 @@ class Actor extends React.Component {
           <div className="layout-single__left-main">
             { actorBirthday && birthPlace && <p><span role="img" aria-label="emoji poussin">🐣</span> {actorBirthday} - {birthPlace}</p>}
             { actorDetails.deathday && <p><span role="img" aria-label="emoji cerceuil">⚰️</span> {actorDeathday}</p>}
-            { actorDetails.biography && <p className="textAlignLeft"><span role="img" aria-label="emoji style plume">🖋</span> {actorDetails.biography}</p>}
+            { actorDetails.biography && <p className="textAlignLeft longText"><span role="img" aria-label="emoji style plume">🖋</span> {actorDetails.biography}</p>}
           </div>
         </div>
       </div>
@@ -98,7 +98,7 @@ class Actor extends React.Component {
   renderActorMovies = actorMovies => {
     const sortedActorMovies = actorMovies.cast.sort((prevMovie, nextMovie) => prevMovie.vote_average > nextMovie.vote_average ? -1 : 1).slice(0,12)
     return (
-      <div className="layout-single__right movies-section">
+      <div className="layout-single__right movies-section actor-movies">
         <h2>Films</h2>
         <ul className="layout-list movies-list">{ sortedActorMovies.map(movie => this.renderMovie(movie))}</ul>
       </div>
