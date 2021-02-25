@@ -15,7 +15,7 @@ jobs:
       - name: "Install surge"
         run: "npm install -g surge"
       - name: "Install project dependencies"
-        run: "npm install"
+        run: "cd ./app && npm install"
       - name: "Create settings folder"
         run: "mkdir ./app/src/settings"
       - name: "Create file"
@@ -26,7 +26,7 @@ jobs:
       - name: "Move settings to correct folder"
         run: "mv settingsFile.js ./app/src/settings/index.js"
       - name: "build react application"
-        run: "npm run build"
+        run: "cd ./app && npm run build"
       - name: "Deploy builded app to Surge"
         run: "surge ./app/build --domain ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}"
 
