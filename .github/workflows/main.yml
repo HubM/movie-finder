@@ -15,7 +15,7 @@ jobs:
       - name: "Install surge"
         run: "npm install -g surge"
       - name: "Install project dependencies"
-        run: "npm install"
+        run: "cd ./app && npm install"
       - name: "Create settings folder"
         run: "mkdir ./app/src/settings"
       - name: "Create file"
