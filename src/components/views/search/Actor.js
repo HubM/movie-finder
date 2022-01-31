@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import Loading from "../../../components/loading/search";
 import ActorCard from "../cards/Actor";
 
-import { getDatabase, addToFavorite, deleteMovieFromFavorites } from "../../../helpers/_functions/db";
+import { getDatabase } from "../../../helpers/_functions/db";
 
 import movieFinder from "../../../services/MovieFinder";
 
