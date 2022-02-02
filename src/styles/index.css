@@ -143,9 +143,14 @@ header {
   width: 120px;
 }
 
-.logo:hover {
+.logo:not(.disabled):hover {
   opacity: 0.75;
 }
+
+.logo.disabled {
+  cursor: initial;
+}
+
 
 .header-second-level {
   position: absolute;
