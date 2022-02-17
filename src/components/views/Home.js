@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import citations from "../../helpers/citations";
 
-function Home() {
+export default function Home() {
   const [famous, setCitation] = useState({ ...citations[Math.floor(Math.random() * citations.length)] });
   return (
     <section className="home">
@@ -17,5 +17,3 @@ function Home() {
     </section>
   );
 }
-
-export default Home;

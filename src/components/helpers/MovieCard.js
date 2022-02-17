@@ -1,7 +1,6 @@
-import React from "react";
 import moment from "moment";
 
-const MovieCard = (props) => {
+export default function MovieCard(props) {
   let btnAction = null;
 
   if (!props.viewOnly) {
@@ -21,18 +20,18 @@ const MovieCard = (props) => {
   }
 
   return (
-    <li className="movie-card">
+    <li className="card">
       {navigator.onLine && (
         <img
           src={props.movieImage}
           onClick={() => props.seeMovieDetails(props.movie.id)}
           alt={`Affiche de ${props.movie.title}`}
-          className="movie-card__img cursorPointer"
+          className="card__img cursorPointer"
         />
       )}
-      <p className="movie-card__title">{props.movie.title}</p>
-      <p className="movie-card__release">{moment(props.movie.release_date).format("DD/MM/YYYY")}</p>
-      <div className="movie-card__action">
+      <p className="card__title">{props.movie.title}</p>
+      <p className="card__release">{moment(props.movie.release_date).format("DD/MM/YYYY")}</p>
+      <div className="card__action">
         {props.indexedDbSupported && btnAction}
         {navigator.onLine && (
           <button onClick={() => props.seeMovieDetails(props.movie.id)} className="btn-action movie-details">
@@ -42,6 +41,4 @@ const MovieCard = (props) => {
       </div>
     </li>
   );
-};
-
-export default MovieCard;
+}

@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 
-import Loading from "../../../components/loading/search";
+import Loading from "../../loading/Search";
 import MovieCard from "../cards/Movie";
 
 import { getDatabase, addToFavorite, deleteMovieFromFavorites } from "../../../helpers/_functions/db";

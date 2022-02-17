@@ -1,7 +1,7 @@
-import React, { lazy, Suspense } from "react";
+import { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import LoadingLogo from "./components/loading/logo";
+import LoadingLogo from "./components/loading/Logo";
 
 const Layout = lazy(() => import("./components/helpers/Layout"));
 const Home = lazy(() => import("./components/views/Home"));
@@ -12,10 +12,9 @@ const Movie = lazy(() => import("./components/views/Movie"));
 const Actor = lazy(() => import("./components/views/Actor"));
 
 export default function App() {
-  const LoadingFallback = <LoadingLogo />;
   return (
     <Router>
-      <Suspense fallback={LoadingFallback}>
+      <Suspense fallback={<LoadingLogo />}>
         <div className="App">
           <Layout>
             <Switch>

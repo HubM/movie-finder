@@ -1,18 +1,18 @@
 import React from "react";
 
-function Actor(props) {
+export default function Actor(props) {
   return (
-    <li className="movie-card">
+    <li className="card">
       {navigator.onLine && (
         <img
           src={props.image}
           onClick={() => props.seeActorDetails(props.actor.id)}
           alt={`${props.actor.name}`}
-          className="movie-card__img cursorPointer"
+          className="card__img cursorPointer"
         />
       )}
-      <p className="movie-card__title">{props.actor.name}</p>
-      <div className="movie-card__action">
+      <p className="card__title">{props.actor.name}</p>
+      <div className="card__action">
         {navigator.onLine && (
           <button onClick={() => props.seeActorDetails(props.actor.id)} className="btn-action movie-details">
             Détails
@@ -22,5 +22,3 @@ function Actor(props) {
     </li>
   );
 }
-
-export default Actor;
