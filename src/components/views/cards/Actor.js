@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => {
+function Actor(props) {
   return (
     <li className="movie-card">
       {navigator.onLine && (
@@ -21,4 +21,6 @@ export default (props) => {
       </div>
     </li>
   );
-};
+}
+
+export default Actor;

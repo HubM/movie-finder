@@ -1,7 +1,7 @@
 import React from "react";
 import moment from "moment";
 
-export default (props) => {
+function Movie(props) {
   let btnAction = null;
 
   if (!props.viewOnly) {
@@ -42,4 +42,6 @@ export default (props) => {
       </div>
     </li>
   );
-};
+}
+
+export default Movie;
