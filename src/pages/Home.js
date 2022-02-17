@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import citations from "../../helpers/citations";
+import citations from "../helpers/citations";
 
 export default function Home() {
   const [famous, setCitation] = useState({ ...citations[Math.floor(Math.random() * citations.length)] });

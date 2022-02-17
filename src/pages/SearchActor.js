@@ -1,12 +1,12 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 
-import Loading from "../../loading/Search";
-import ActorCard from "../cards/Actor";
+import Loading from "../components/loading/Search";
+import ActorCard from "../components/cards/Actor";
 
-import { getDatabase } from "../../../helpers/_functions/db";
+import { getDatabase } from "../helpers/_functions/db";
 
-import movieFinder from "../../../services/MovieFinder";
+import movieFinder from "../services/MovieFinder";
 
 class Search extends React.Component {
   constructor(props) {

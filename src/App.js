@@ -3,13 +3,13 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import LoadingLogo from "./components/loading/Logo";
 
-const Layout = lazy(() => import("./components/helpers/Layout"));
-const Home = lazy(() => import("./components/views/Home"));
-const SearchMovie = lazy(() => import("./components/views/search/Movie"));
-const SearchActor = lazy(() => import("./components/views/search/Actor"));
-const Favorites = lazy(() => import("./components/views/Favorites"));
-const Movie = lazy(() => import("./components/views/Movie"));
-const Actor = lazy(() => import("./components/views/Actor"));
+const Layout = lazy(() => import("./components/layout"));
+const Home = lazy(() => import("./pages/Home"));
+const SearchMovie = lazy(() => import("./pages/SearchMovie"));
+const SearchActor = lazy(() => import("./pages/SearchActor"));
+const Favorites = lazy(() => import("./pages/Favorites"));
+const Movie = lazy(() => import("./pages/SeeMovie"));
+const Actor = lazy(() => import("./pages/SeeActor"));
 
 export default function App() {
   return (

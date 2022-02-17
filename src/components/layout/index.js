@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import Navigation from "./Navigation";
-import Logo from "./Logo";
+import Navigation from "../helpers/Navigation";
+import Logo from "../helpers/Logo";
 
 export default function Layout(props) {
   const [isOpened, changeNavState] = useState(false);
