@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import LoadingLogo from "./components/loading/logo";
 
-const Layout = lazy(() => import("./components/helpers/Layout"));
+const Layout = lazy(() => import("./components/layout"));
 const Home = lazy(() => import("./components/views/Home"));
 const SearchMovie = lazy(() => import("./components/views/search/Movie"));
 const SearchActor = lazy(() => import("./components/views/search/Actor"));
